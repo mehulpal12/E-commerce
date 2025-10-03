@@ -50,10 +50,19 @@ export default function UserDetail() {
           <div className="flex items-center">
             <span className="w-32 font-semibold text-gray-700">Email:</span>
             <span className="text-gray-600">{user.email}</span>
+            
+    
           </div>
-         <button onClick={logout}>
-            logout
-         </button>
+          <div className="mt-6 space-y-4">
+          <div className="flex justify-center">
+            <button
+              onClick={logout}
+              className="px-6 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold shadow-md hover:from-blue-600 hover:to-purple-600 transition"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
         </div>
       </div>
     </div>

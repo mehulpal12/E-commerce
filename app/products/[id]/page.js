@@ -1,9 +1,8 @@
 "use client"
-
-
 // pages/product.js
 import { useState, use, useEffect } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 
 export default function ProductPage({params}) {
   const { id } = use(params);
@@ -12,6 +11,9 @@ export default function ProductPage({params}) {
   const [selectedSize, setSelectedSize] = useState('Large');
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('reviews');
+    const [cart, setCart] = useState([]);
+    const [cartCount, setCartCount] = useState(0);
+  
 
   const colors = [
     { name: 'olive', bg: 'bg-green-700', selected: selectedColor === 'olive' },
@@ -133,6 +135,73 @@ export default function ProductPage({params}) {
   }, [id]);
   
   console.log(product + "edgerg");
+
+  //   const addToCart = (product) => {
+  //   // Check if the exact same product (same id, size, color) already exists
+  //   const existingItem = cart.find(item => 
+  //     item.id === product.id && 
+  //     item.size === product.size && 
+  //     item.color === product.color
+  //   );
+
+  //   if (existingItem) {
+  //     // If exists, increase quantity
+  //     setCart(cart.map(item =>
+  //       item.id === product.id && 
+  //       item.size === product.size && 
+  //       item.color === product.color
+  //         ? { ...item, quantity: item.quantity + 1 }
+  //         : item
+  //     ));
+  //   } else {
+  //     // If not exists, add new item with quantity 1
+  //     setCart([...cart, { ...product, quantity: 1 }]);
+  //   }
+    
+  //   // Show success message (optional)
+  //   alert(`${product.name} added to cart!`);
+  // };
+  //  const isInCart = (productId) => {
+  //   return cart.some(item => item.id === productId);
+  // };
+
+  useEffect(() => {
+    updateCartCount();
+  }, []);
+
+  // Update cart count from localStorage
+  const updateCartCount = () => {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    setCartCount(totalItems);
+  };
+
+  // Add to cart function
+  const addToCart = (product) => {
+    // Get existing cart from localStorage
+    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    
+    // Check if product already exists
+    const existingItemIndex = existingCart.findIndex(item => item.id === id);
+    
+    if (existingItemIndex > -1) {
+      // Product exists, increase quantity
+      existingCart[existingItemIndex].quantity += 1;
+    } else {
+      // New product, add with quantity 1
+      existingCart.push({ ...product, quantity: 1 });
+    }
+    
+    // Save updated cart to localStorage
+    localStorage.setItem('cart', JSON.stringify(existingCart));
+    
+    // Update cart count
+    updateCartCount();
+    
+    // Show success message
+    // alert(`${product.name} added to cart!`);
+  };
+
   return (
     <>
       <Head>
@@ -281,9 +350,14 @@ export default function ProductPage({params}) {
                     +
                   </button>
                 </div>
-                <button className="flex-1 bg-black text-white py-3 px-8 rounded-full hover:bg-gray-800 transition duration-200">
-                  Add to Cart
-                </button>
+               <Link href={`/cart`}>
+                 <button
+                        onClick={() => addToCart(product)}
+                        className={`px-6 py-2 rounded-full font-medium transition `}
+                      >
+                        add to cart
+                      </button>
+               </Link>
               </div>
             </div>
           </div>
