@@ -5,6 +5,7 @@ configDotenv();
 import productRoutes from "./routes/product.route.js"
 import mongoose from "mongoose";
 import { registerUser, loginUser, logoutUser } from "./controllers/user.controllers.js";
+import  handler  from "./app/api/checkout.js";
 
 
 const app = express()
@@ -20,6 +21,7 @@ app.get("/", (req,res)=>{
 })
 app.use("/api/products", productRoutes)
 app.use("/user/register", registerUser)
+app.use("/api/checkout", handler)
 app.use("/user/login", loginUser)
 app.use("/user/logout", logoutUser)
 const PORT = process.env.PORT || 5000;

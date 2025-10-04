@@ -1,57 +1,81 @@
 "use client"
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
 export default function CartPage() {
   const router = useRouter();
   const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // Load cart from localStorage on component mount
   useEffect(() => {
     loadCart();
   }, []);
 
-  // Load cart from localStorage
   const loadCart = () => {
     const savedCart = JSON.parse(localStorage.getItem('cart') || '[]');
     setCart(savedCart);
   };
 
-  // Save cart to localStorage
   const saveCart = (updatedCart) => {
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     setCart(updatedCart);
   };
 
-  // Remove item from cart
-  const removeFromCart = (id) => {
-    console.log(id);
-    
-    const updatedCart = cart.filter(item => item._id !== id);
+  const removeFromCart = (itemId) => {
+    const updatedCart = cart.filter(item => item._id !== itemId);
     saveCart(updatedCart);
   };
 
-  // Update quantity
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) {
       removeFromCart(id);
       return;
     }
-    
     const updatedCart = cart.map(item =>
       item.id === id ? { ...item, quantity: newQuantity } : item
     );
     saveCart(updatedCart);
   };
 
-  // Calculate totals
   const getSubtotal = () => {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
   const getTotalItems = () => {
     return cart.reduce((total, item) => total + item.quantity, 0);
+  };
+
+  // STRIPE PAYMENT FUNCTION
+  const handleStripeCheckout = async () => {
+    if (cart.length === 0) {
+      alert('Your cart is empty!');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:7000/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ items: cart }),
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        // Redirect to Stripe checkout
+        window.location.href = data.url;
+      } else {
+        throw new Error('No checkout URL received');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      alert('Payment failed! Please try again. Error: ' + error.message);
+      setLoading(false);
+    }
   };
 
   const getProductImage = (imageType) => {
@@ -67,7 +91,7 @@ export default function CartPage() {
   };
 
   const subtotal = getSubtotal();
-  const discount = subtotal * 0.2; // 20% discount
+  const discount = subtotal * 0.2;
   const deliveryFee = 15;
   const total = subtotal - discount + deliveryFee;
 
@@ -94,7 +118,6 @@ export default function CartPage() {
         <h1 className="text-3xl font-bold mb-8">YOUR CART</h1>
 
         {cart.length === 0 ? (
-          // Empty Cart State
           <div className="bg-white rounded-lg shadow-md p-12 text-center">
             <div className="text-6xl mb-4">🛒</div>
             <h2 className="text-2xl font-semibold mb-2">Your cart is empty</h2>
@@ -107,17 +130,13 @@ export default function CartPage() {
             </button>
           </div>
         ) : (
-          // Cart with Items
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
               {cart.map(item => (
                 <div key={item._id} className="bg-white rounded-lg shadow-md p-6">
                   <div className="flex gap-4">
-                    {/* Product Image */}
                     <div className={`w-24 h-24 rounded-lg flex-shrink-0 ${getProductImage(item.image)}`}></div>
-
-                    {/* Product Details */}
                     <div className="flex-1">
                       <div className="flex justify-between items-start mb-2">
                         <div>
@@ -134,11 +153,8 @@ export default function CartPage() {
                           </svg>
                         </button>
                       </div>
-
                       <div className="flex justify-between items-center mt-4">
                         <span className="text-xl font-bold">${item.price}</span>
-
-                        {/* Quantity Controls */}
                         <div className="flex items-center bg-gray-100 rounded-full">
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -159,22 +175,18 @@ export default function CartPage() {
                   </div>
                 </div>
               ))}
-
-              <Link href={"/home"}>
               <button 
                 onClick={() => router.push('/products')}
                 className="w-full border-2 border-black text-black py-3 rounded-full hover:bg-black hover:text-white transition font-medium"
               >
                 ← Continue Shopping
               </button>
-              </Link>
             </div>
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
                 <h2 className="text-xl font-semibold mb-6">Order Summary</h2>
-
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between text-gray-600">
                     <span>Subtotal</span>
@@ -196,13 +208,35 @@ export default function CartPage() {
                   </div>
                 </div>
 
-                <button className="w-full bg-black text-white py-4 rounded-full hover:bg-gray-800 transition font-medium mb-3">
-                  Proceed to Checkout →
+                {/* STRIPE CHECKOUT BUTTON */}
+                <button 
+                  onClick={handleStripeCheckout}
+                  disabled={loading}
+                  className={`w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-full hover:from-blue-700 hover:to-purple-700 transition font-medium mb-3 flex items-center justify-center ${
+                    loading ? 'opacity-70 cursor-not-allowed' : ''
+                  }`}
+                >
+                  {loading ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 2v12h16V6H4zm2 2h12v2H6V8zm0 4h8v2H6v-2z"/>
+                      </svg>
+                      Pay with Stripe
+                    </>
+                  )}
                 </button>
 
                 <button 
                   onClick={() => {
-                    if (confirm('Are you sure you want to clear your cart?')) {
+                    if (confirm('Clear your cart?')) {
                       saveCart([]);
                     }
                   }}
@@ -211,11 +245,11 @@ export default function CartPage() {
                   Clear Cart
                 </button>
 
-                <div className="flex items-center justify-center text-sm text-gray-500 mt-4">
+                <div className="flex items-center justify-center text-xs text-gray-500 mt-4">
                   <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
-                  Secure Checkout
+                  Secured by Stripe
                 </div>
               </div>
             </div>
