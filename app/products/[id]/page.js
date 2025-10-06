@@ -11,9 +11,6 @@ export default function ProductPage({params}) {
   const [selectedSize, setSelectedSize] = useState('Large');
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('reviews');
-    const [cart, setCart] = useState([]);
-    const [cartCount, setCartCount] = useState(0);
-  
 
   const colors = [
     { name: 'olive', bg: 'bg-green-700', selected: selectedColor === 'olive' },
@@ -136,34 +133,6 @@ export default function ProductPage({params}) {
   
   console.log(product + "edgerg");
 
-  //   const addToCart = (product) => {
-  //   // Check if the exact same product (same id, size, color) already exists
-  //   const existingItem = cart.find(item => 
-  //     item.id === product.id && 
-  //     item.size === product.size && 
-  //     item.color === product.color
-  //   );
-
-  //   if (existingItem) {
-  //     // If exists, increase quantity
-  //     setCart(cart.map(item =>
-  //       item.id === product.id && 
-  //       item.size === product.size && 
-  //       item.color === product.color
-  //         ? { ...item, quantity: item.quantity + 1 }
-  //         : item
-  //     ));
-  //   } else {
-  //     // If not exists, add new item with quantity 1
-  //     setCart([...cart, { ...product, quantity: 1 }]);
-  //   }
-    
-  //   // Show success message (optional)
-  //   alert(`${product.name} added to cart!`);
-  // };
-  //  const isInCart = (productId) => {
-  //   return cart.some(item => item.id === productId);
-  // };
 
   useEffect(() => {
     updateCartCount();

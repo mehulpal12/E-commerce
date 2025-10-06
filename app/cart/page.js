@@ -102,7 +102,7 @@ export default function CartPage() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
             <button 
-              onClick={() => router.push('/products')}
+              onClick={() => router.push('/home')}
               className="text-2xl font-bold hover:text-gray-600 transition flex items-center"
             >
               <span className="mr-2">←</span> SHOP.CO
