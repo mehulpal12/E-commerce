@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Menu, Search, ShoppingCart, User, X } from "lucide-react";
 import Link from "next/link";
 
@@ -28,7 +27,7 @@ export default function Header() {
   }, []);
   useEffect(() => {
     setFilteredProducts(allProducts);
-  }, []);
+  }, [allProducts]);
 
   const handleSearch = (query) => {
       

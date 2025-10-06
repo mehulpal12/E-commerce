@@ -13,11 +13,11 @@ export default function ProductCard({ product }) {
   return (
     <div className="group cursor-pointer">
       <div className="aspect-square overflow-hidden rounded-lg bg-muted mb-4">
-        <img
+        {/* <img
           src={product.image || "/placeholder.svg"}
           alt={product.name}
           className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-        />
+        /> */}
       </div>
       <div className="space-y-2">
         <h3 className="font-semibold text-sm md:text-base line-clamp-2">{product.name}</h3>

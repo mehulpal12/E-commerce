@@ -39,8 +39,8 @@ export default function HeroSection() {
           {/* Right Content - Hero Image */}
           <div className="relative">
             <div className="relative aspect-square md:aspect-[4/5] overflow-hidden rounded-lg">
-              <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/attachments/gen-images/public/fashionable-couple-wearing-trendy-clothes-VLFHxpbo041wouwgENhaGCTKxLKXQI.jpg" alt="Fashionable couple" className="object-cover w-full h-full" />
-              {/* Decorative Stars */}
+              {/* <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/attachments/gen-images/public/fashionable-couple-wearing-trendy-clothes-VLFHxpbo041wouwgENhaGCTKxLKXQI.jpg" alt="Fashionable couple" className="object-cover w-full h-full" />
+              Decorative Stars */}
               <div className="absolute top-8 right-8">
                 <Star className="h-8 w-8 fill-yellow-400 text-yellow-400" />
               </div>
