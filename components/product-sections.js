@@ -61,9 +61,9 @@ const [newArrivals, setNewArrivals] = useState([])
     fetchProducts();
   }, []);
   return (
-    <div className="space-y-16">
+    <div className="space-y-4">
       {/* New Arrivals */}
-      <section className="container px-4 pt-12">
+      <section className="container px-4 ">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">NEW ARRIVALS</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
           {newArrivals.map((product) => (
@@ -86,12 +86,12 @@ const [newArrivals, setNewArrivals] = useState([])
 
       {/* Top Selling */}
       <section className="container px-4 ">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">TOP SELLING</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
-          {/* {topSelling.map((product) => (
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">TOP SELLING</h2>
+        {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
+          {topSelling.map((product) => (
             <ProductCard key={product.id} product={product} />
-          ))} */}
-        </div>
+          ))}
+        </div> */}
         <div className="text-center">
           <Button variant="outline" size="lg">
             View All

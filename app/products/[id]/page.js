@@ -11,6 +11,9 @@ export default function ProductPage({params}) {
   const [selectedSize, setSelectedSize] = useState('Large');
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('reviews');
+    const [cart, setCart] = useState([]);
+    const [cartCount, setCartCount] = useState(0);
+  
 
   const colors = [
     { name: 'olive', bg: 'bg-green-700', selected: selectedColor === 'olive' },

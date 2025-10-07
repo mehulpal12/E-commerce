@@ -14,26 +14,22 @@ export default function Header() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:7000/api/products"); // your backend route
+        const res = await fetch("http://localhost:7000/api/products");
         const data = await res.json();
         setAllProducts(data.products);
-        // assuming backend returns { products: [...] }
       } catch (error) {
         console.error("Failed to fetch products", error);
       }
     };
 
     fetchProducts();
-  }, []);
+  });
   useEffect(() => {
     setFilteredProducts(allProducts);
-  }, [allProducts]);
+  }, []);
 
   const handleSearch = (query) => {
-      
-      setSearchQuery(query);
-
-
+    setSearchQuery(query);
     // Filter products by name (case-insensitive)
     const filtered = allProducts.filter((product) =>
       product.name.toLowerCase().includes(query.toLowerCase())
@@ -80,12 +76,6 @@ export default function Header() {
           >
             Brands
           </a>
-          <button
-            href="#"
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
-            products
-          </button>
           <Link href={"/category"}>
             <button
               href="#"
