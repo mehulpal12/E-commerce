@@ -90,6 +90,22 @@ export default function CartPage() {
     return styles[imageType] || 'bg-gray-200';
   };
 
+    const getCloudinaryImage = (imageUrl) => {
+    // If imageUrl is already a full Cloudinary URL, return it
+    if (imageUrl?.startsWith("http")) {
+      return imageUrl;
+    }
+
+    // If imageUrl is a Cloudinary public_id, construct the URL
+    if (imageUrl) {
+      const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+      return `https://res.cloudinary.com/${cloudName}/image/upload/${imageUrl}`;
+    }
+
+    // Fallback placeholder image
+    return "/placeholder-product.jpg";
+  };
+
   const subtotal = getSubtotal();
   const discount = subtotal * 0.2;
   const deliveryFee = 15;
@@ -136,7 +152,14 @@ export default function CartPage() {
               {cart.map(item => (
                 <div key={item._id} className="bg-white rounded-lg shadow-md p-6">
                   <div className="flex gap-4">
-                    <div className={`w-24 h-24 rounded-lg flex-shrink-0 ${getProductImage(item.image)}`}></div>
+                   <div className="relative h-64 bg-gray-100">
+                  <img
+                    src={getCloudinaryImage(item.image)}
+                    
+                    className="w-full h-full object-cover"
+                    onError={(e) => (e.target.src = "/placeholder-product.jpg")}
+                  />
+                </div>
                     <div className="flex-1">
                       <div className="flex justify-between items-start mb-2">
                         <div>

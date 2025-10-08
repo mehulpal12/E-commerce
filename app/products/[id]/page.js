@@ -11,8 +11,8 @@ export default function ProductPage({params}) {
   const [selectedSize, setSelectedSize] = useState('Large');
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('reviews');
-    const [cart, setCart] = useState([]);
-    const [cartCount, setCartCount] = useState(0);
+  const [cart, setCart] = useState([]);
+  const [cartCount, setCartCount] = useState(0);
   
 
   const colors = [
@@ -119,6 +119,7 @@ export default function ProductPage({params}) {
    useEffect(() => {
     const fetchProducts = async () => {
       try {
+        
         const res = await fetch(`http://localhost:7000/api/products/${id}`);
         const data = await res.json();
         console.log(data.product+"dfhgdfj");

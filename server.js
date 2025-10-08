@@ -6,6 +6,8 @@ import productRoutes from "./routes/product.route.js"
 import mongoose from "mongoose";
 import { registerUser, loginUser, logoutUser } from "./controllers/user.controllers.js";
 import  handler  from "./app/api/checkout.js";
+import  uploadImage  from "./app/api/upload-image.js";
+import  getImages  from "./app/api/get-images.js";
 
 
 const app = express()
@@ -20,6 +22,8 @@ app.get("/", (req,res)=>{
  res.send("main page")
 })
 app.use("/api/products", productRoutes)
+app.use("/api/upload-image", uploadImage)
+app.use("/api/get-images", getImages)
 app.use("/user/register", registerUser)
 app.use("/api/checkout", handler)
 app.use("/user/login", loginUser)

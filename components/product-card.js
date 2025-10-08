@@ -9,15 +9,33 @@ export default function ProductCard({ product }) {
       />
     ))
   }
+    const getCloudinaryImage = (imageUrl) => {
+    // If imageUrl is already a full Cloudinary URL, return it
+    if (imageUrl?.startsWith("http")) {
+      return imageUrl;
+    }
+
+    // If imageUrl is a Cloudinary public_id, construct the URL
+    if (imageUrl) {
+      const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+      return `https://res.cloudinary.com/${cloudName}/image/upload/${imageUrl}`;
+    }
+
+    // Fallback placeholder image
+    return "/placeholder-product.jpg";
+  };
 
   return (
     <div className="group cursor-pointer">
       <div className="aspect-square overflow-hidden rounded-lg bg-muted mb-4">
-        {/* <img
-          src={product.image || "/placeholder.svg"}
-          alt={product.name}
-          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-        /> */}
+           <div className="relative h-64 bg-gray-100">
+                  <img
+                    src={getCloudinaryImage(product.image)}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => (e.target.src = "/placeholder-product.jpg")}
+                  />
+                </div>
       </div>
       <div className="space-y-2">
         <h3 className="font-semibold text-sm md:text-base line-clamp-2">{product.name}</h3>

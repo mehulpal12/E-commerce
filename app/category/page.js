@@ -149,6 +149,24 @@ export default function CasualPage() {
   setfilterProducts(filtered);
 }, [sortBy, priceRange, products]);
 
+
+
+  const getCloudinaryImage = (imageUrl) => {
+    // If imageUrl is already a full Cloudinary URL, return it
+    if (imageUrl?.startsWith("http")) {
+      return imageUrl;
+    }
+
+    // If imageUrl is a Cloudinary public_id, construct the URL
+    if (imageUrl) {
+      const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+      return `https://res.cloudinary.com/${cloudName}/image/upload/${imageUrl}`;
+    }
+
+    // Fallback placeholder image
+    return "/placeholder-product.jpg";
+  };
+
   return (
     <div className="overflow-hidden">
       <Head>
@@ -315,34 +333,14 @@ export default function CasualPage() {
                 {currentPageProducts.map((product) => (
                   <div key={product._id} className="group cursor-pointer">
                     <div className="aspect-square rounded-lg mb-4 overflow-hidden">
-                      <div
-                        className={`w-full h-full ${getProductImage(
-                          product.image
-                        )} group-hover:scale-105 transition duration-300 flex items-center justify-center`}
-                      >
-                        {product.image === "gradient" && (
-                          <div className="text-4xl font-bold text-purple-600 transform -rotate-12">
-                            ART
-                          </div>
-                        )}
-                        {product.image === "courage" && (
-                          <div className="text-3xl font-bold text-white">
-                            ONE
-                            <br />
-                            LIFE
-                          </div>
-                        )}
-                        {product.image === "checkered" && (
-                          <div
-                            className="w-full h-full"
-                            style={{
-                              backgroundImage:
-                                "repeating-conic-gradient(#ef4444 0% 25%, #3b82f6 25% 50%)",
-                              backgroundSize: "40px 40px",
-                            }}
-                          ></div>
-                        )}
-                      </div>
+                     <div className="relative h-64 bg-gray-100">
+                  <img
+                    src={getCloudinaryImage(product.image)}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => (e.target.src = "/placeholder-product.jpg")}
+                  />
+                </div>
                     </div>
                     <h3 className="font-medium mb-2 group-hover:text-gray-600 transition">
                       {product.name}

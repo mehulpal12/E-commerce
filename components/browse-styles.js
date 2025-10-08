@@ -1,19 +1,19 @@
 const styles = [
   {
     name: "Casual",
-    image: "/casual-clothing-style.jpg",
+    image: "https://res.cloudinary.com/datsq9ufg/image/upload/v1759925719/shop-products/rq6geyec1iaisprat9sp.avif",
   },
   {
     name: "Formal",
-    image: "/formal-clothing-style.jpg",
+    image: "https://res.cloudinary.com/datsq9ufg/image/upload/v1759922397/cld-sample-5.jpg",
   },
   {
     name: "Party",
-    image: "/party-clothing-style.jpg",
+    image: "https://res.cloudinary.com/datsq9ufg/image/upload/v1759922397/cld-sample-3.jpg",
   },
   {
     name: "Gym",
-    image: "/gym-workout-clothing.jpg",
+    image: "https://res.cloudinary.com/datsq9ufg/image/upload/v1759922397/cld-sample-2.jpg",
   },
 ]
 
