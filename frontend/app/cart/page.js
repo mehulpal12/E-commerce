@@ -155,11 +155,9 @@ export default function CartPage() {
                   <div className="flex gap-4">
                    <div className="relative h-64 bg-gray-100">
                   <Image
-
                     src={getCloudinaryImage(item.image)}
                     alt={item.name}
-                    width={250}
-                    height={250}  
+                    fill
                     className="w-full h-full object-cover"
                     onError={(e) => (e.target.src = "/placeholder-product.jpg")}
                   />
