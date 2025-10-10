@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 const styles = [
   {
     name: "Casual",
@@ -25,7 +27,7 @@ export default function BrowseStyles() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Casual - spans 1 column */}
           <div className="relative group cursor-pointer overflow-hidden rounded-2xl aspect-[4/3] md:aspect-square">
-            <img
+            <Image width={250} height={350}
               src={styles[0].image || "/placeholder.svg"}
               alt={styles[0].name}
               className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
@@ -38,7 +40,7 @@ export default function BrowseStyles() {
 
           {/* Formal - spans 2 columns */}
           <div className="md:col-span-2 relative group cursor-pointer overflow-hidden rounded-2xl aspect-[4/3] md:aspect-[2/1]">
-            <img
+            <Image width={250} height={350}
               src={styles[1].image || "/placeholder.svg"}
               alt={styles[1].name}
               className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
@@ -51,7 +53,7 @@ export default function BrowseStyles() {
 
           {/* Party - spans 2 columns */}
           <div className="md:col-span-2 relative group cursor-pointer overflow-hidden rounded-2xl aspect-[4/3] md:aspect-[2/1]">
-            <img
+            <Image width={250} height={350}
               src={styles[2].image || "/placeholder.svg"}
               alt={styles[2].name}
               className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
@@ -64,7 +66,7 @@ export default function BrowseStyles() {
 
           {/* Gym - spans 1 column */}
           <div className="relative group cursor-pointer overflow-hidden rounded-2xl aspect-[4/3] md:aspect-square">
-            <img
+            <Image width={250} height={350}
               src={styles[3].image || "/placeholder.svg"}
               alt={styles[3].name}
               className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"

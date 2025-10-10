@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import { Slider } from "@/components/ui/slider";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function CasualPage() {
   const [filters, setFilters] = useState({
@@ -334,11 +335,13 @@ export default function CasualPage() {
                   <div key={product._id} className="group cursor-pointer">
                     <div className="aspect-square rounded-lg mb-4 overflow-hidden">
                      <div className="relative h-64 bg-gray-100">
-                  <img
+                  <Image
                     src={getCloudinaryImage(product.image)}
                     alt={product.name}
                     className="w-full h-full object-cover"
                     onError={(e) => (e.target.src = "/placeholder-product.jpg")}
+                    width={350}
+                    height={250}
                   />
                 </div>
                     </div>

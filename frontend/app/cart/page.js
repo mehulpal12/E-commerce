@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function CartPage() {
   const router = useRouter();
@@ -153,9 +154,12 @@ export default function CartPage() {
                 <div key={item._id} className="bg-white rounded-lg shadow-md p-6">
                   <div className="flex gap-4">
                    <div className="relative h-64 bg-gray-100">
-                  <img
+                  <Image
+
                     src={getCloudinaryImage(item.image)}
-                    
+                    alt={item.name}
+                    width={250}
+                    height={250}  
                     className="w-full h-full object-cover"
                     onError={(e) => (e.target.src = "/placeholder-product.jpg")}
                   />

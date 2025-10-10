@@ -3,6 +3,7 @@
 import { useState, use, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ProductPage({params}) {
   const { id } = use(params);
@@ -233,7 +234,7 @@ export default function ProductPage({params}) {
             <div className="space-y-4">
               <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
                 <div className="w-full h-full  flex ">
-                  <img src={product.image}  />
+                  <Image src={product.image} alt='product' width={600} height={250}  />
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-4">

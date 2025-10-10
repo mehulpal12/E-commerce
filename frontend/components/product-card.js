@@ -1,4 +1,5 @@
 import { Star } from "lucide-react"
+import Image from "next/image";
 
 export default function ProductCard({ product }) {
   const renderStars = (rating) => {
@@ -29,11 +30,13 @@ export default function ProductCard({ product }) {
     <div className="group cursor-pointer">
       <div className="aspect-square overflow-hidden rounded-lg bg-muted mb-4">
            <div className="relative h-64 bg-gray-100">
-                  <img
+                  <Image
                     src={getCloudinaryImage(product.image)}
                     alt={product.name}
                     className="w-full h-full object-cover"
                     onError={(e) => (e.target.src = "/placeholder-product.jpg")}
+                    height={650}
+                    width={350}
                   />
                 </div>
       </div>
